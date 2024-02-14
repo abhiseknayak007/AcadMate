@@ -1,55 +1,41 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Assume postId is the identifier for the post you are voting on
-    const postId = 123; 
+// Initialize vote count
+let voteCount =  0;
 
-    // Fetch the initial vote count when the page loads
-    updateVoteCount();
-
-    // Add event listeners for upvote and downvote buttons
-    document.getElementById('upvoteBtn').addEventListener('click', function() {
-        vote(postId, 'upvote');
-    });
-
-    document.getElementById('downvoteBtn').addEventListener('click', function() {
-        vote(postId, 'downvote');
-    });
-});
-
-function vote(postId, action) {
-    // Send a request to the server to update the vote count
-    // This is where you'd make an AJAX request or use a fetch API
-    // to communicate with your backend
-    // For simplicity, I'm using a placeholder function here
-    simulateServerRequest(postId, action);
+// Function to display the vote count
+function displayVoteCount() {
+  document.getElementById('voteCountDisplay').textContent = voteCount;
 }
 
-function updateVoteCount() {
-    // Fetch the current vote count from the server
-    // Again, using a placeholder function for simplicity
-    const currentVoteCount = simulateServerVoteCount();
-    
-    // Update the UI with the current vote count
-    document.getElementById('voteCount').innerText = `Votes: ${currentVoteCount}`;
+// Function to handle upvote action
+function upvote() {
+  voteCount++;
+  displayVoteCount();
+  disableButtonsTemporarily();
 }
 
-function simulateServerRequest(postId, action) {
-    // Placeholder function to simulate a server request
-    // In a real scenario, you would make an actual request to your backend API
-    // to update the vote count for the given post
-    // Here, I'm just updating the UI immediately to simulate the response
-    const currentVoteCount = simulateServerVoteCount();
-    const newVoteCount = action === 'upvote' ? currentVoteCount + 1 : currentVoteCount - 1;
-
-    // Simulate a delay (replace this with an actual AJAX/fetch request)
-    setTimeout(() => {
-        updateVoteCount();
-    }, 500);
+// Function to handle downvote action
+function downvote() {
+  voteCount--;
+  displayVoteCount();
+  disableButtonsTemporarily();
 }
 
-function simulateServerVoteCount() {
-    // Placeholder function to simulate fetching the current vote count from the server
-    // In a real scenario, you would make an actual request to your backend API
-    // to get the current vote count for the given post
-    // Here, I'm just returning a hardcoded value for demonstration purposes
-    return 42;
+// Function to temporarily disable the buttons
+function disableButtonsTemporarily() {
+  let upvoteButton = document.getElementById('upvoteButton');
+  let downvoteButton = document.getElementById('downvoteButton');
+  upvoteButton.disabled = true;
+  downvoteButton.disabled = true;
+   
+//   setTimeout(() => {
+//     upvoteButton.disabled = false;
+//     downvoteButton.disabled = false;
+//   },  1000); // Re-enable after  1 second
 }
+
+// Attach event listeners to the buttons
+document.getElementById('upvoteButton').addEventListener('click', upvote);
+document.getElementById('downvoteButton').addEventListener('click', downvote);
+
+// Display initial vote count
+displayVoteCount();
